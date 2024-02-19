@@ -172,3 +172,4 @@ ACCEPT_UNINVITED_REGISTRATIONS = False
 SITE_NAME = 'Pythonic News'
 SITE_URL = 'https://news.python.sc'
 SITE_DOMAIN = 'news.python.sc'
+SESSION_COOKIE_SECURE = True
