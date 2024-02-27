@@ -48,7 +48,7 @@ def create_verification(sender, instance, created, **kwargs):
             if not verifications.count():
                 create_v = True
             else:
-                verified = any([i.verified for i in verifications])
+                verified = any(i.verified for i in verifications)
                 # create_v = not verified
                 create_v = False
             
