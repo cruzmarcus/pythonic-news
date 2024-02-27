@@ -54,7 +54,9 @@ def _one_page_back(request):
     _more_link=request.path_info + '?' + query_dict.urlencode()
     return HttpResponseRedirect(_more_link)
 
-def _front_page(paging_size=settings.PAGING_SIZE, page=0, add_filter={}, add_q=[], as_of=None, days_back=50):
+def _front_page(paging_size=settings.PAGING_SIZE, page=0, add_filter=None, add_q=None, as_of=None, days_back=50):
+    add_filter = {} if add_filter is None else add_filter
+    add_q = [] if add_q is None else add_q
     # TODO: weighting https://medium.com/hacking-and-gonzo/how-hacker-news-ranking-algorithm-works-1d9b0cf2c08d
     # (P-1) / (T+2)^G
     if as_of is None:
@@ -101,7 +103,9 @@ def _front_page(paging_size=settings.PAGING_SIZE, page=0, add_filter={}, add_q=[
         raise NotImplementedError("No frontpage magic for database engine %s implemented"%(connection.vendor))
 
 
-def _newest(paging_size=settings.PAGING_SIZE, page=0, add_filter={}, add_q=[]):
+def _newest(paging_size=settings.PAGING_SIZE, page=0, add_filter=None, add_q=None):
+    add_filter = {} if add_filter is None else add_filter
+    add_q = [] if add_q is None else add_q
     return Story.objects \
                 .select_related('user') \
                 .filter(duplicate_of__isnull=True) \
