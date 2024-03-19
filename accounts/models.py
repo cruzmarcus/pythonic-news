@@ -71,6 +71,11 @@ class Invitation(models.Model):
         return True
         pass # TODO
 
+    def __str__(self):
+        model_name = self.__class__.__name__
+        fields_str = ", ".join((f"{field.name}={getattr(self, field.name)}" for field in self._meta.fields))
+        return f"{model_name}({fields_str})"
+
 
 class EmailVerification(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -87,6 +92,11 @@ class EmailVerification(models.Model):
     def get_verify_url(self):
         return reverse("accounts_verify", kwargs={"verification_code": self.verification_code})
 
+    def __str__(self):
+        model_name = self.__class__.__name__
+        fields_str = ", ".join((f"{field.name}={getattr(self, field.name)}" for field in self._meta.fields))
+        return f"{model_name}({fields_str})"
+
 
 class PasswordResetRequest(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -99,3 +109,8 @@ class PasswordResetRequest(models.Model):
 
     def get_verify_url(self):
         return reverse("password_forgotten", kwargs={"verification_code": self.verification_code})
+
+    def __str__(self):
+        model_name = self.__class__.__name__
+        fields_str = ", ".join((f"{field.name}={getattr(self, field.name)}" for field in self._meta.fields))
+        return f"{model_name}({fields_str})"

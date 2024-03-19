@@ -16,6 +16,11 @@ class EmailDigest(models.Model):
                                                                                      ('Sat', 'Sat')))
     stories = models.ManyToManyField('news.Story')
 
+    def __str__(self):
+        model_name = self.__class__.__name__
+        fields_str = ", ".join((f"{field.name}={getattr(self, field.name)}" for field in self._meta.fields))
+        return f"{model_name}({fields_str})"
+
 class Subscription(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -30,6 +35,11 @@ class Subscription(models.Model):
                                                                                      ('Sat', 'Sat')))
     verfied_email = models.EmailField(null=True, blank=True)
     is_active = models.BooleanField(default=False)
+
+    def __str__(self):
+        model_name = self.__class__.__name__
+        fields_str = ", ".join((f"{field.name}={getattr(self, field.name)}" for field in self._meta.fields))
+        return f"{model_name}({fields_str})"
 
 
 class UserSubscription(Subscription):
@@ -50,3 +60,8 @@ class UnSubscription(models.Model):
     changed_at = models.DateTimeField(auto_now=True)
     subscription = models.ForeignKey(Subscription, on_delete=models.CASCADE)
     from_digest = models.ForeignKey(EmailDigest, on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        model_name = self.__class__.__name__
+        fields_str = ", ".join((f"{field.name}={getattr(self, field.name)}" for field in self._meta.fields))
+        return f"{model_name}({fields_str})"
