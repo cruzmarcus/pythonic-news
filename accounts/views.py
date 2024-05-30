@@ -27,7 +27,7 @@ def my_profile(request):
     form = ProfileForm(request.POST or None, instance=instance)
     if request.user.email:
         verifications = EmailVerification.objects.filter(user=request.user, email=request.user.email)
-        verified = any([i.verified for i in verifications])
+        verified = any(i.verified for i in verifications)
     else:
         verified = False
     if request.method == 'POST':
